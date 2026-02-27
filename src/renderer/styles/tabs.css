@@ -1,0 +1,225 @@
+/* ---- Tab bar ---- */
+.tab-bar {
+  display: flex;
+  align-items: stretch;
+  background: var(--mantle);
+  height: var(--tabbar-h);
+  flex-shrink: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-app-region: no-drag;
+  border-bottom: 1px solid var(--surface0);
+  scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+/* Reserve space for native window control buttons on Windows */
+.platform-win .tab-bar { padding-right: 140px; }
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  min-width: 120px;
+  max-width: 200px;
+  height: 100%;
+  font-size: 12px;
+  color: var(--subtext0);
+  cursor: pointer;
+  border-right: 1px solid color-mix(in srgb, var(--surface0) 50%, transparent);
+  white-space: nowrap;
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+  position: relative;
+}
+.tab:hover { background: var(--accent-glow); color: var(--subtext1); }
+.tab.active { color: var(--text); background: var(--base); }
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 8px; right: 8px;
+  height: 2px;
+  background: var(--blue);
+  border-radius: 2px 2px 0 0;
+}
+.tab.dragging { opacity: 0.5; }
+.tab.drag-over { background: var(--accent-bg); }
+.tab.in-folder { min-width: 100px; }
+.tab.pinned {
+  min-width: auto; max-width: none; padding: 0 10px;
+  border-right: 1px solid color-mix(in srgb, var(--surface0) 80%, transparent);
+}
+.tab.pinned .tab-label { display: none; }
+.tab.pinned .tab-close { display: none; }
+.tab.pinned .tab-icon { opacity: 1; }
+
+.tab-color-bar {
+  position: absolute;
+  left: 0; top: 6px; bottom: 6px;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+}
+
+.tab-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+.tab-label-input {
+  background: var(--surface0);
+  border: 1px solid var(--blue);
+  color: var(--text);
+  font-size: 12px;
+  font-family: inherit;
+  padding: 1px 4px;
+  border-radius: 3px;
+  outline: none;
+  width: 100%;
+}
+.tab-close {
+  width: 20px; height: 20px;
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  color: var(--overlay0);
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease), opacity var(--fast) var(--ease);
+  flex-shrink: 0;
+  opacity: 0.4;
+  cursor: pointer;
+}
+.tab:hover .tab-close, .tab.active .tab-close { opacity: 1; color: var(--overlay1); }
+.tab-close:hover { background: var(--red); color: var(--crust); }
+
+.tab-icon { font-size: 13px; flex-shrink: 0; opacity: 0.7; }
+
+/* ---- Tab bell notification ---- */
+.tab-bell {
+  animation: tab-bell-flash 1.5s ease-out;
+}
+.tab-bell .tab-label { color: var(--yellow); }
+@keyframes tab-bell-flash {
+  0%   { background: color-mix(in srgb, var(--yellow) 25%, transparent); }
+  100% { background: transparent; }
+}
+
+/* ---- Tab activity dot (background tab received output) ---- */
+.tab-activity::before {
+  content: '';
+  position: absolute;
+  top: 3px; left: 50%;
+  transform: translateX(-50%);
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+  opacity: 0.9;
+  z-index: 2;
+  animation: activity-pulse 2s ease-in-out infinite;
+}
+@keyframes activity-pulse {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.4; }
+}
+.tab.active .tab-activity::before { display: none; }
+
+.home-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; min-width: 36px; height: 100%;
+  font-size: 18px;
+  color: var(--overlay1);
+  cursor: pointer;
+  transition: color var(--fast) var(--ease), background var(--fast) var(--ease);
+  border-right: 1px solid color-mix(in srgb, var(--surface0) 50%, transparent);
+}
+.home-btn:hover {
+  color: var(--blue);
+  background: var(--accent-glow);
+}
+.home-btn { position: relative; }
+
+/* ---- Feature dropdown ---- */
+.feature-dropdown {
+  position: relative; display: flex; align-items: stretch; height: 100%;
+}
+.feature-dropdown-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; min-width: 36px; height: 100%;
+  color: var(--overlay1); cursor: pointer; border: none; background: none;
+  border-right: 1px solid color-mix(in srgb, var(--surface0) 50%, transparent);
+  transition: color var(--fast) var(--ease), background var(--fast) var(--ease);
+}
+.feature-dropdown-btn:hover, .feature-dropdown-btn.open {
+  color: var(--blue); background: var(--accent-glow);
+}
+.feature-dropdown-menu {
+  display: none; position: fixed;
+  z-index: 200;
+  min-width: 240px; max-height: 420px;
+  overflow-y: auto;
+  background: var(--mantle);
+  border: 1px solid var(--surface0);
+  border-radius: 8px;
+  padding: 4px 0;
+  box-shadow: 0 8px 32px var(--shadow-overlay), 0 2px 8px var(--shadow-deep);
+  scrollbar-width: thin; scrollbar-color: var(--surface1) transparent;
+}
+.feature-dropdown-menu::-webkit-scrollbar { width: 5px; }
+.feature-dropdown-menu::-webkit-scrollbar-thumb { background: var(--surface1); border-radius: 3px; }
+.feature-dropdown-menu.visible { display: block; }
+.feature-menu-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 14px; font-size: 12px; color: var(--text);
+  cursor: pointer; transition: background var(--fast) var(--ease);
+}
+.feature-menu-item:hover { background: var(--accent-glow); }
+.feature-menu-item .hint {
+  font-size: 10px; color: var(--overlay0);
+  margin-left: 16px; white-space: nowrap;
+}
+.feature-menu-sep {
+  height: 1px; background: var(--surface0);
+  margin: 4px 10px;
+}
+.feature-menu-label {
+  padding: 6px 14px 2px; font-size: 10px; font-weight: 600;
+  color: var(--overlay0); text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* ---- Folder groups ---- */
+.folder-group {
+  display: flex; flex-direction: row; align-items: stretch; height: 100%;
+  position: relative;
+}
+
+/* Folder child tabs get a colored top border to show grouping */
+.folder-group .folder-content { display: flex; align-items: stretch; height: 100%; }
+.folder-group .folder-content .tab {
+  border-top: 2px solid var(--yellow);
+}
+
+/* Folder handle: compact strip on the LEFT of child tabs */
+.folder-header {
+  display: flex; flex-direction: row; align-items: center; justify-content: center;
+  gap: 6px;
+  padding: 0 10px; min-width: 44px; height: 100%;
+  font-size: 10px; font-weight: 600; color: var(--subtext0);
+  cursor: pointer;
+  background: color-mix(in srgb, var(--yellow) 6%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--yellow) 15%, transparent);
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+  white-space: nowrap; position: relative;
+}
+.folder-header:hover { background: color-mix(in srgb, var(--yellow) 12%, transparent); color: var(--text); }
+.folder-header.drag-over { background: color-mix(in srgb, var(--blue) 15%, transparent); box-shadow: inset 0 0 0 1px var(--blue); }
+.folder-header.collapsed { opacity: 0.8; }
+.folder-header.collapsed:hover { opacity: 1; }
+
+.folder-icon { flex-shrink: 0; color: var(--yellow); }
+.folder-label {
+  overflow: hidden; text-overflow: ellipsis;
+  max-width: 80px;
+  font-size: 11px; letter-spacing: 0.3px;
+}
+.folder-count {
+  font-size: 9px; background: var(--surface0); color: var(--overlay1);
+  padding: 1px 5px; border-radius: 6px; font-weight: 500;
+}

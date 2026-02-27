@@ -1,0 +1,14 @@
+.titlebar {
+  height: var(--titlebar-h);
+  background: var(--mantle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--subtext0);
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+  border-bottom: 1px solid var(--surface0);
+  letter-spacing: 0.3px;
+}

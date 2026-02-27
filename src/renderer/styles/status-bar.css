@@ -1,0 +1,28 @@
+.status-bar {
+  height: var(--statusbar-h);
+  background: var(--mantle);
+  border-top: 1px solid var(--surface0);
+  display: flex; align-items: center;
+  padding: 0 12px;
+  font-size: 11px; color: var(--overlay1);
+  flex-shrink: 0; gap: 16px;
+}
+.status-bar .status-item { display: flex; align-items: center; gap: 4px; }
+.status-bar .spacer { flex: 1; }
+.status-bar .shortcut { opacity: 0.5; font-size: 10px; }
+
+.broadcast-indicator {
+  cursor: pointer;
+  padding: 2px 8px; border-radius: 4px;
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+  opacity: 0.5;
+}
+.broadcast-indicator:hover { opacity: 0.8; background: var(--surface0); }
+.broadcast-indicator.active { opacity: 1; color: var(--red); background: color-mix(in srgb, var(--red) 12%, transparent); }
+
+.status-cwd {
+  font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+  font-size: 10px; color: var(--overlay0);
+  max-width: 300px; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; direction: rtl; text-align: left;
+}

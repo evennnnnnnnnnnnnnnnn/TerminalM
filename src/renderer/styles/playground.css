@@ -1,0 +1,210 @@
+/* ---- Playground Page — 3D Virtual Office ---- */
+.playground-page {
+  flex: 1; display: flex; flex-direction: column;
+  background: var(--base); overflow: hidden;
+  position: relative;
+}
+
+/* ---- Playground Tab Bar Button ---- */
+.playground-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; min-width: 36px; height: 100%;
+  color: var(--overlay1);
+  cursor: pointer;
+  transition: color var(--fast) var(--ease), background var(--fast) var(--ease);
+  border-right: 1px solid color-mix(in srgb, var(--surface0) 50%, transparent);
+}
+.playground-btn:hover {
+  color: var(--mauve);
+  background: color-mix(in srgb, var(--mauve) 8%, transparent);
+}
+.playground-btn.active {
+  color: var(--mauve);
+  background: color-mix(in srgb, var(--mauve) 12%, transparent);
+}
+
+/* ---- 3D Canvas container — fills entire playground ---- */
+.pg-canvas-wrap {
+  position: absolute; inset: 0;
+  z-index: 0;
+}
+.pg-canvas-wrap canvas {
+  display: block; width: 100%; height: 100%;
+}
+
+/* ---- Empty state overlay (over 3D scene) ---- */
+.pg-empty-overlay {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 24px; z-index: 10;
+  background: color-mix(in srgb, var(--base) 85%, transparent);
+  backdrop-filter: blur(8px);
+  transition: opacity var(--med) var(--ease);
+  pointer-events: auto;
+}
+.pg-empty-overlay.hidden {
+  opacity: 0; pointer-events: none;
+}
+
+.pg-hero {
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+}
+.pg-hero-mascot {
+  animation: pg-mascot-float 3s ease-in-out infinite;
+  filter: drop-shadow(0 6px 20px color-mix(in srgb, var(--mauve) 20%, transparent));
+}
+@keyframes pg-mascot-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.pg-hero-text { text-align: center; }
+.pg-hero-text h2 {
+  font-size: 22px; font-weight: 600; color: var(--text); margin: 0 0 4px;
+}
+.pg-hero-text p {
+  font-size: 13px; color: var(--overlay1); margin: 0;
+}
+
+.pg-empty-hint {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--overlay0);
+  padding: 10px 20px; border: 1px dashed var(--surface1); border-radius: 8px;
+}
+.pg-empty-hint svg { flex-shrink: 0; opacity: 0.5; }
+
+/* ---- Agent Info Panel (floating overlay) ---- */
+.pg-info-panel {
+  position: absolute; top: 16px; right: 16px;
+  width: 280px; max-height: calc(100% - 32px);
+  background: var(--mantle);
+  border: 1px solid var(--surface0);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px var(--shadow-deep);
+  z-index: 20;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  opacity: 0; transform: translateX(20px);
+  pointer-events: none;
+  transition: opacity var(--fast) var(--ease), transform var(--fast) var(--ease);
+}
+.pg-info-panel.open {
+  opacity: 1; transform: translateX(0);
+  pointer-events: auto;
+}
+
+.pg-info-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px; border-bottom: 1px solid var(--surface0); flex-shrink: 0;
+}
+.pg-info-title {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.pg-info-close {
+  width: 22px; height: 22px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--overlay1); cursor: pointer;
+  background: none; border: none;
+  transition: background var(--fast) var(--ease);
+}
+.pg-info-close:hover { background: var(--surface0); color: var(--text); }
+
+.pg-info-body {
+  padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;
+  border-bottom: 1px solid var(--surface0); flex-shrink: 0;
+}
+.pg-info-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 11px;
+}
+.pg-info-label { color: var(--overlay0); }
+.pg-info-value {
+  color: var(--text); font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; text-align: right; max-width: 160px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+.pg-info-actions {
+  display: flex; gap: 6px; padding: 12px 14px; flex-shrink: 0;
+}
+.pg-info-btn {
+  flex: 1; padding: 6px 10px; border-radius: 6px; font-size: 11px;
+  cursor: pointer; border: 1px solid var(--surface1);
+  background: var(--surface0); color: var(--text); text-align: center;
+  transition: background var(--fast) var(--ease);
+}
+.pg-info-btn:hover { background: var(--surface1); }
+.pg-info-btn.primary { background: var(--blue); color: var(--crust); border-color: var(--blue); }
+.pg-info-btn.primary:hover { background: var(--lavender); }
+.pg-info-btn.danger { color: var(--red); }
+.pg-info-btn.danger:hover { background: color-mix(in srgb, var(--red) 12%, transparent); }
+
+/* ---- Controls hint (bottom center) ---- */
+.pg-controls-hint {
+  position: absolute; bottom: 12px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  background: color-mix(in srgb, var(--mantle) 90%, transparent);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--surface0);
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-size: 10px; color: var(--overlay0);
+  pointer-events: none;
+  opacity: 0.8;
+  transition: opacity var(--fast) var(--ease);
+  white-space: nowrap;
+}
+.pg-controls-hint:hover { opacity: 1; }
+
+/* ---- Home Page Lock Indicator ---- */
+.home-tab-card-lock {
+  font-size: 11px; color: var(--yellow); flex-shrink: 0; opacity: 0.7;
+  margin-left: 4px;
+}
+
+/* ---- Home Page DnD States ---- */
+.home-tab-card.dragging { opacity: 0.4; }
+.home-tab-card.drag-over-above { box-shadow: 0 -2px 0 0 var(--blue); }
+.home-tab-card.drag-over-below { box-shadow: 0 2px 0 0 var(--blue); }
+.home-tab-card.drag-over-inside { border-color: var(--blue); background: var(--accent-glow); }
+
+.home-folder-group.drag-over-above { box-shadow: 0 -2px 0 0 var(--blue); }
+.home-folder-group.drag-over-below { box-shadow: 0 2px 0 0 var(--blue); }
+.home-folder-group.drag-over-inside { border-color: var(--blue); background: var(--accent-glow); }
+.home-folder-header.drag-over-inside { background: var(--accent-bg); }
+
+/* ---- Home Page Rename Input ---- */
+.home-rename-input {
+  background: var(--surface0);
+  border: 1px solid var(--blue);
+  color: var(--text);
+  font-size: 13px; font-family: inherit;
+  padding: 2px 6px; border-radius: 4px;
+  outline: none; width: 100%;
+}
+
+/* ---- Tab Lock Indicator ---- */
+.tab-lock {
+  font-size: 9px; color: var(--yellow); flex-shrink: 0;
+  margin-right: -2px; opacity: 0.7;
+}
+
+/* ---- Accessibility ---- */
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+.tab:focus-visible, .home-tab-card:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -1px;
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+[role="tablist"] { display: flex; }
+[role="tab"] { cursor: pointer; }
+[role="tab"][aria-selected="true"] { color: var(--text); }
