@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "installed_at": "2026-02-28T06:25:16.625Z",
+  "files": [
+    {
+      "path": "Mesh/(Dashboard) Backlog.md",
+      "checksum": "5e9abcbc97929004505c35e6b1b496ec"
+    }
+  ],
+  "folders": [
+    "Mesh/Tasks/",
+    "Mesh/Archive/Tasks/"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "installed_at": "2026-02-28T06:25:15.430Z",
+  "files": [
+    {
+      "path": "Mesh/(Dashboard) Plans.md",
+      "checksum": "0285b134e95360f6ace07383eab3db6f"
+    }
+  ],
+  "folders": [
+    "Mesh/Plans/",
+    "Mesh/Archive/Plans/"
+  ]
+}

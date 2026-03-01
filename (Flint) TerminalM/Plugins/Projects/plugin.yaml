@@ -1,0 +1,18 @@
+version: "1.0.0"
+name: Projects
+shorthand: proj
+description: High-level planning and task management
+type: prompt
+init: setup-proj.md
+depends:
+  - core
+  - ld
+  - arc
+
+install:
+  - source: (Dashboard) Backlog.md
+    dest: Mesh/(Dashboard) Backlog.md
+
+folders:
+  - Mesh/Tasks/
+  - Mesh/Archive/Tasks/

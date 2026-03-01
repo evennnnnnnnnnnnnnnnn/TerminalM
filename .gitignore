@@ -28,5 +28,8 @@ Desktop.ini
 *.log
 npm-debug.log*
 
+# Test coverage
+coverage/
+
 # Misc
 *.pyc

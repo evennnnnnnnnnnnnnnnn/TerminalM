@@ -1,0 +1,9 @@
+version: "1.0.0"
+name: Core
+shorthand: core
+description: Base plugin system and terminal agent conventions for all Flint agents.
+type: prompt
+
+install:
+  - source: (System) Flint Init.md
+    dest: Mesh/(System) Flint Init.md

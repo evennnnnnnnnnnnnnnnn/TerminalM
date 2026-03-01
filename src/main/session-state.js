@@ -105,4 +105,4 @@ function setupSessionHandlers() {
   });
 }
 
-module.exports = { setupSessionHandlers, loadSession, saveSession };
+module.exports = { setupSessionHandlers };

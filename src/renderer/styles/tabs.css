@@ -45,12 +45,9 @@
 .tab.drag-over { background: var(--accent-bg); }
 .tab.in-folder { min-width: 100px; }
 .tab.pinned {
-  min-width: auto; max-width: none; padding: 0 10px;
   border-right: 1px solid color-mix(in srgb, var(--surface0) 80%, transparent);
 }
-.tab.pinned .tab-label { display: none; }
 .tab.pinned .tab-close { display: none; }
-.tab.pinned .tab-icon { opacity: 1; }
 
 .tab-color-bar {
   position: absolute;
@@ -184,6 +181,21 @@
   color: var(--overlay0); text-transform: uppercase; letter-spacing: 0.5px;
 }
 
+/* ---- Nav captions (hidden in horizontal, shown in vertical) ---- */
+.nav-caption { display: none; }
+
+/* ---- Quick Commands button ---- */
+.quick-cmd-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; min-width: 36px; height: 100%;
+  color: var(--overlay1); cursor: pointer;
+  border-right: 1px solid color-mix(in srgb, var(--surface0) 50%, transparent);
+  transition: color var(--fast) var(--ease), background var(--fast) var(--ease);
+}
+.quick-cmd-btn:hover, .quick-cmd-btn.active {
+  color: var(--blue); background: var(--accent-glow);
+}
+
 /* ---- Folder groups ---- */
 .folder-group {
   display: flex; flex-direction: row; align-items: stretch; height: 100%;
@@ -193,7 +205,7 @@
 /* Folder child tabs get a colored top border to show grouping */
 .folder-group .folder-content { display: flex; align-items: stretch; height: 100%; }
 .folder-group .folder-content .tab {
-  border-top: 2px solid var(--yellow);
+  border-top: 2px solid var(--folder-color, var(--yellow));
 }
 
 /* Folder handle: compact strip on the LEFT of child tabs */
@@ -210,10 +222,11 @@
 }
 .folder-header:hover { background: color-mix(in srgb, var(--yellow) 12%, transparent); color: var(--text); }
 .folder-header.drag-over { background: color-mix(in srgb, var(--blue) 15%, transparent); box-shadow: inset 0 0 0 1px var(--blue); }
+.folder-group.dragging { opacity: 0.5; }
 .folder-header.collapsed { opacity: 0.8; }
 .folder-header.collapsed:hover { opacity: 1; }
 
-.folder-icon { flex-shrink: 0; color: var(--yellow); }
+.folder-icon { flex-shrink: 0; }
 .folder-label {
   overflow: hidden; text-overflow: ellipsis;
   max-width: 80px;
@@ -222,4 +235,169 @@
 .folder-count {
   font-size: 9px; background: var(--surface0); color: var(--overlay1);
   padding: 1px 5px; border-radius: 6px; font-weight: 500;
+}
+
+/* ================================================
+   VERTICAL NAV MODE — uses CSS grid on body
+   ================================================ */
+body.vertical-nav {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  grid-template-rows: var(--titlebar-h) 1fr var(--statusbar-h);
+  grid-template-areas:
+    "titlebar  titlebar"
+    "sidebar   content"
+    "statusbar statusbar";
+}
+
+body.vertical-nav .titlebar {
+  grid-area: titlebar;
+}
+
+/* Tab bar becomes vertical sidebar */
+body.vertical-nav .tab-bar {
+  grid-area: sidebar;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-bottom: none;
+  border-right: 1px solid var(--surface0);
+  align-items: stretch;
+}
+body.vertical-nav.platform-win .tab-bar { padding-right: 0; }
+
+body.vertical-nav .tab-bar .feature-dropdown {
+  height: auto;
+}
+body.vertical-nav .tab-bar .home-btn,
+body.vertical-nav .tab-bar .feature-dropdown-btn,
+body.vertical-nav .tab-bar .playground-btn,
+body.vertical-nav .tab-bar .quick-cmd-btn {
+  width: 100%;
+  min-width: 100%;
+  height: 32px;
+  border-right: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--surface0) 50%, transparent);
+  justify-content: flex-start;
+  padding: 0 12px;
+  gap: 8px;
+}
+body.vertical-nav .nav-caption {
+  display: inline;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+body.vertical-nav .tab {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  height: 32px;
+  border-right: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--surface0) 30%, transparent);
+}
+body.vertical-nav .tab.active::after {
+  top: 4px; bottom: 4px;
+  left: 0; right: auto;
+  width: 2px; height: auto;
+  border-radius: 0 2px 2px 0;
+}
+body.vertical-nav .tab-color-bar {
+  top: 0; bottom: 0; left: 0;
+  width: 3px; height: auto;
+}
+
+/* Folders in vertical mode */
+body.vertical-nav .folder-group {
+  flex-direction: column;
+  height: auto;
+  width: 100%;
+}
+body.vertical-nav .folder-group .folder-content {
+  flex-direction: column;
+  height: auto;
+  width: 100%;
+}
+body.vertical-nav .folder-group .folder-content .tab {
+  border-top: none;
+  border-left: 2px solid var(--folder-color, var(--yellow));
+  padding-left: 20px;
+}
+body.vertical-nav .folder-header {
+  width: 100%;
+  height: 28px;
+  min-width: 0;
+  border-right: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--yellow) 15%, transparent);
+  justify-content: flex-start;
+  padding: 0 10px;
+}
+
+/* Content area: main-content, home-page, playground-page all go into the content cell */
+body.vertical-nav .main-content {
+  grid-area: content;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+body.vertical-nav .home-page {
+  grid-area: content;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+}
+body.vertical-nav .playground-page {
+  grid-area: content;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+body.vertical-nav .status-bar {
+  grid-area: statusbar;
+}
+
+/* All other body children (overlays, menus, dialogs) must not affect grid layout */
+body.vertical-nav > .sr-only,
+body.vertical-nav > .welcome-overlay,
+body.vertical-nav > .search-overlay,
+body.vertical-nav > .command-palette-backdrop,
+body.vertical-nav > .command-palette,
+body.vertical-nav > .feature-dropdown-menu,
+body.vertical-nav > .context-menu,
+body.vertical-nav > .quick-cmd-dialog-backdrop,
+body.vertical-nav > .quick-cmd-dialog,
+body.vertical-nav > .toast-container,
+body.vertical-nav > .settings-backdrop,
+body.vertical-nav > .settings-panel,
+body.vertical-nav > .drop-overlay,
+body.vertical-nav > script {
+  grid-area: 1 / 1 / -1 / -1;
+  pointer-events: none;
+  z-index: 100;
+}
+/* Re-enable pointer events on visible overlays */
+body.vertical-nav > .welcome-overlay.visible,
+body.vertical-nav > .command-palette-backdrop.visible,
+body.vertical-nav > .command-palette.visible,
+body.vertical-nav > .feature-dropdown-menu.visible,
+body.vertical-nav > .context-menu.visible,
+body.vertical-nav > .settings-backdrop.visible,
+body.vertical-nav > .settings-panel.visible,
+body.vertical-nav > .quick-cmd-dialog-backdrop.visible,
+body.vertical-nav > .search-overlay.visible {
+  pointer-events: auto;
 }

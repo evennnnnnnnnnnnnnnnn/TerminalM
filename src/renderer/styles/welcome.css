@@ -160,8 +160,9 @@
   transition: background var(--fast) var(--ease);
 }
 .home-folder-header:hover { background: var(--surface1); }
+.home-folder-group.dragging { opacity: 0.5; }
 .home-folder-header.collapsed { opacity: 0.8; }
-.home-folder-header svg { flex-shrink: 0; color: var(--yellow); }
+.home-folder-header svg { flex-shrink: 0; }
 .home-folder-label { flex: 1; }
 .home-folder-chevron {
   font-size: 10px; color: var(--overlay0); flex-shrink: 0;

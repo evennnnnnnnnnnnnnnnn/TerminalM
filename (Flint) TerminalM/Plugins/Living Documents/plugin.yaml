@@ -1,0 +1,8 @@
+version: "1.0.0"
+name: Living Documents
+shorthand: ld
+description: Track document lifecycle with living/dead tags
+type: prompt
+init: setup-ld.md
+depends:
+  - core

@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "installed_at": "2026-02-28T06:25:17.225Z",
+  "files": [
+    {
+      "path": "Mesh/(Dashboard) Reports.md",
+      "checksum": "24d2d6b52203391f1eaf9e7d1684e846"
+    }
+  ],
+  "folders": [
+    "Mesh/Reports/",
+    "Mesh/Archive/Reports/"
+  ]
+}

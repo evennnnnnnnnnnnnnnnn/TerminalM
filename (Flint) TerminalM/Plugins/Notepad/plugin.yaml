@@ -1,0 +1,17 @@
+version: "1.1.0"
+name: Notepad
+shorthand: ntpd
+description: Document-based brainstorming with individual notepad files
+type: prompt
+init: init-ntpd.md
+depends:
+  - core
+  - arc
+
+install:
+  - source: (Dashboard) Notepads.md
+    dest: Mesh/(Dashboard) Notepads.md
+
+folders:
+  - Mesh/Notepads/
+  - Mesh/Archive/Notepads/

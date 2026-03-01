@@ -1,0 +1,18 @@
+version: "1.0.0"
+name: Meta-Tasks
+shorthand: mtsk
+description: Higher-order goals achieved through completion of referenced artifacts
+type: prompt
+depends:
+  - core
+  - projects
+
+# Files installed directly into flint
+install:
+  - source: (Dashboard) Meta-Backlog.md
+    dest: Mesh/(Dashboard) Meta-Backlog.md
+
+# Folders created by this plugin
+folders:
+  - Mesh/Meta-Tasks/
+  - Mesh/Archive/Meta-Tasks/

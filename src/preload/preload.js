@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer, webUtils } = require('electron');
 
 contextBridge.exposeInMainWorld('termAPI', {
   // PTY lifecycle
@@ -61,4 +61,18 @@ contextBridge.exposeInMainWorld('termAPI', {
 
   // File dialogs
   showSaveDialog: (options) => ipcRenderer.invoke('show-save-dialog', options),
+  showOpenDialog: (options) => ipcRenderer.invoke('show-open-dialog', options),
+
+  // File path from drag-and-drop (sandbox-safe)
+  getFilePath: (file) => webUtils.getPathForFile(file),
+
+  // Dev mode detection
+  isDev: () => ipcRenderer.invoke('is-dev'),
+
+  // Auto-update
+  onUpdateStatus: (callback) => {
+    const handler = (_event, message) => callback(message);
+    ipcRenderer.on('update-status', handler);
+    return () => ipcRenderer.removeListener('update-status', handler);
+  },
 });

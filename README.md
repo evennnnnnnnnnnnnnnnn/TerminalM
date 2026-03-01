@@ -69,6 +69,40 @@ styles.css    — Complete Catppuccin-themed styling
 
 The app uses a tree-based pane model. Each tab has a pane tree where leaf nodes are terminals and internal nodes are splits, allowing arbitrary nesting.
 
+## Building
+
+Build a Windows executable (outputs to `dist/`):
+
+```bash
+npm run dist
+```
+
+This produces:
+- `dist/Multi Terminal Setup X.X.X.exe` — NSIS installer
+- `dist/win-unpacked/` — Portable version (run `Multi Terminal.exe` directly)
+
+## Releasing
+
+Publish a new version to [GitHub Releases](https://github.com/evennnnnnnnnnnnnnnnn/TerminalM/releases) with auto-update support:
+
+1. Create a `.env` file in the project root with your GitHub token:
+   ```
+   GH_TOKEN=your_github_personal_access_token
+   ```
+   The token needs **Contents: Read and write** permission on this repo.
+
+2. Bump the version in `package.json`:
+   ```json
+   "version": "2.1.0"
+   ```
+
+3. Build and publish:
+   ```bash
+   npm run release
+   ```
+
+Users running an installed version will automatically receive an update prompt on next launch.
+
 ## Customization
 
 - **Theme**: Edit CSS variables in `styles.css` and the `THEME` object in `renderer.js`

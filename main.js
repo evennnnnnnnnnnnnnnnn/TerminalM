@@ -1,6 +1,15 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const { autoUpdater } = require('electron-updater');
+
+// Dev/prod environment separation — must run before importing modules
+// that capture app.getPath('userData') at load time.
+const isDev = !app.isPackaged;
+if (isDev) {
+  app.setPath('userData', app.getPath('userData') + '-dev');
+}
+
 const { loadWindowState, saveWindowState } = require('./src/main/window-state');
 const { setupPtyHandlers, killAllTerminals } = require('./src/main/pty-manager');
 const { buildMenu } = require('./src/main/menu');
@@ -50,6 +59,8 @@ function createWindow() {
 
   mainWindow.loadFile('src/renderer/pages/terminal.html');
 
+  if (isDev) mainWindow.setTitle('TerminalM [DEV]');
+
   mainWindow.once('ready-to-show', () => mainWindow.show());
 
   let windowStateTimer;
@@ -66,6 +77,8 @@ function createWindow() {
 
 setupPtyHandlers(getMainWindow);
 setupSessionHandlers();
+
+ipcMain.handle('is-dev', () => isDev);
 
 // Save dialog handler for exporting terminal output
 ipcMain.handle('show-save-dialog', async (event, options) => {
@@ -94,7 +107,38 @@ ipcMain.on('set-theme', (event, theme) => {
   }
 });
 
-app.whenReady().then(createWindow);
+// --- Auto-updater (disabled in dev) ---
+if (!isDev) {
+  autoUpdater.autoDownload = true;
+  autoUpdater.autoInstallOnAppQuit = true;
+
+  autoUpdater.on('update-available', (info) => {
+    mainWindow?.webContents.send('update-status', `Update v${info.version} available, downloading...`);
+  });
+
+  autoUpdater.on('update-downloaded', (info) => {
+    if (!mainWindow || mainWindow.isDestroyed()) return;
+    dialog.showMessageBox(mainWindow, {
+      type: 'info',
+      title: 'Update Ready',
+      message: `Version ${info.version} has been downloaded.`,
+      detail: 'It will be installed when you restart the app. Restart now?',
+      buttons: ['Restart', 'Later'],
+      defaultId: 0,
+    }).then(({ response }) => {
+      if (response === 0) autoUpdater.quitAndInstall();
+    });
+  });
+
+  autoUpdater.on('error', (err) => {
+    console.error('Auto-update error:', err.message);
+  });
+}
+
+app.whenReady().then(() => {
+  createWindow();
+  if (!isDev) autoUpdater.checkForUpdatesAndNotify();
+});
 
 app.on('window-all-closed', () => {
   killAllTerminals();

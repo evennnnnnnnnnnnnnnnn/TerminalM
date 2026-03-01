@@ -1,0 +1,23 @@
+[flint]
+name = "TerminalM"
+type = "flint"
+
+[plugins]
+required = [
+  "core",
+  "living-documents",
+  "code-docs",
+  "compile",
+  "projects",
+  "meta-tasks",
+  "plan",
+  "increments",
+  "notepad",
+  "plugin-template",
+  "reports",
+]
+
+[workspace]
+references = [
+  { name = "repo", type = "codebase" },
+]

@@ -1,0 +1,12 @@
+version: "1.0.0"
+name: Compile
+shorthand: cmpr
+description: Create curated collections of notes for compilation
+type: prompt
+depends:
+  - core
+
+# Tags introduced by this plugin
+tags:
+  - "#compile"
+  - "#cmpr/compile"

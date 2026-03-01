@@ -1,0 +1,12 @@
+version: "1.0.0"
+name: Code Docs
+shorthand: cdocs
+description: Exhaustive codebase documentation with coverage tracking
+type: prompt
+init: init-cdocs.md
+depends:
+  - core
+  - ld
+
+folders:
+  - Mesh/Code Docs/

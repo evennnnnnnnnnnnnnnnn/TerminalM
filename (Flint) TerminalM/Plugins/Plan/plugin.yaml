@@ -1,0 +1,19 @@
+version: "1.0.0"
+name: Plan
+shorthand: plan
+description: High-level planning that maps directly to human intention
+type: prompt
+init: init-plan.md
+setup: setup-plan.md
+depends:
+  - core
+  - arc
+  - meta-tasks
+
+install:
+  - source: (Dashboard) Plans.md
+    dest: Mesh/(Dashboard) Plans.md
+
+folders:
+  - Mesh/Plans/
+  - Mesh/Archive/Plans/

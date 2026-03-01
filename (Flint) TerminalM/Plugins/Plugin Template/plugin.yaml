@@ -1,0 +1,7 @@
+version: "1.0.0"
+name: Plugin Template
+shorthand: tmpl
+description: Meta-plugin for creating new Flint plugins
+type: prompt
+depends:
+  - core

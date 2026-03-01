@@ -1,0 +1,26 @@
+version: "1.0.0"
+name: Increments
+shorthand: inc
+description: Track work using increment.stream.iteration versioning
+type: prompt
+
+depends:
+  - core
+  - ld
+  - proj
+  - mtsk
+  - plan
+
+install:
+  - source: (Dashboard) Increments.md
+    dest: Mesh/(Dashboard) Increments.md
+  - source: (Increment) 1.0.0 - Init.md
+    dest: Mesh/Increments/(Increment) 1.0.0 - Init.md
+    install_mode: once
+  - source: (Increment) 1.A.0 - Adhoc.md
+    dest: Mesh/Increments/(Increment) 1.A.0 - Adhoc.md
+    install_mode: once
+
+folders:
+  - Mesh/Increments/
+  - Mesh/Archive/Increments/

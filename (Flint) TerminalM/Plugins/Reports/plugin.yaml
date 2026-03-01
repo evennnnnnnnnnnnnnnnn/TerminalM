@@ -1,0 +1,17 @@
+version: "1.0.0"
+name: Reports
+shorthand: rpt
+description: Create and organize reports - research findings, code reviews, concept explainers
+type: prompt
+depends:
+  - core
+  - ld
+
+install:
+  - source: (Dashboard) Reports.md
+    dest: Mesh/(Dashboard) Reports.md
+    install_mode: once
+
+folders:
+  - Mesh/Reports/
+  - Mesh/Archive/Reports/
