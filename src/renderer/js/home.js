@@ -189,6 +189,8 @@ function setupHomeFolderDnD(folderDiv, hdr, folderId) {
     document.querySelectorAll('.home-folder-header').forEach(h => {
       h.classList.remove('drag-over-inside', 'drag-over-above', 'drag-over-below');
     });
+    const sl = $('homeSessionList');
+    if (sl) sl.classList.remove('drag-over-list');
   });
   hdr.addEventListener('dragover', (e) => {
     if (e.dataTransfer.types.includes('Files')) return;

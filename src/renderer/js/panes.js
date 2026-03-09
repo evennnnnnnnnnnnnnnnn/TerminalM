@@ -111,10 +111,7 @@ export function initPane(node, container) {
       return true;
     }
     if (ctrl && !e.shiftKey && e.key === 'v') {
-      navigator.clipboard.readText().then(text => {
-        if (text) window.termAPI.writePty(node.id, text);
-      });
-      return false;
+      return false; // Block \x16; browser paste event → xterm onData → writePty
     }
     if (ctrl && !e.shiftKey && e.key === 'Enter') {
       window.termAPI.writePty(node.id, '\n');

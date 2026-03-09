@@ -1,6 +1,6 @@
 {
   "name": "terminalm",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Modern terminal emulator with tabs, split panes, search, and Catppuccin theme",
   "main": "src/main/main.js",
   "author": "Even",
